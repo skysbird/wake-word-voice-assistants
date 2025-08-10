@@ -226,6 +226,17 @@ micro_wake_word:
     - hey_mycroft
     - hey_jarvis
   on_wake_word_detected:
+    - homeassistant.service:
+        service: tts.speak
+        data:
+          cache: "false"
+          media_player_entity_id: speaker_media_player
+          message: "Please"
+          entity_id: tts.piper
+    - wait_until:
+        not:
+          media_player.is_playing: onju_out
+    - delay: 100ms
     - voice_assistant.start:
         wake_word: !lambda return wake_word;
 
